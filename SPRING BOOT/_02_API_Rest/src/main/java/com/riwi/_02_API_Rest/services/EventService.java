@@ -21,37 +21,45 @@ public class EventService implements IEventService {
 
     @Override
     public Evento create(Evento event) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        //retorna la creacion del evento con el metodo save del repositorio
+        return this.objEventRepository.save(event);
     }
 
     @Override
     public List<Evento> getAll() {
+        //lista todos los eventos
         return this.objEventRepository.findAll();
     }
 
     @Override
     public Evento findById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        //el metodo orElseThrow genera un true si el valor esta presente de lo contrario arroja un NoSuchElementException 
+        return this.objEventRepository.findById(id).orElseThrow();
     }
 
     @Override
     public List<Evento> search(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'search'");
+        //se busca el evento por el nombre en el repositorio y se devuelve una lista de eventos
+       return this.objEventRepository.findByName(name);
     }
 
     @Override
-    public Evento update(String id, Evento evento) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public Evento update(String id, Evento objEvento) {
+        //se busca el evento por el id
+        this.objEventRepository.findById(id).orElseThrow();
+        //al objeto evento, se le envia el id
+        objEvento.setId(id);
+        //devuelve el evento actualizado
+        return this.objEventRepository.save(objEvento);
     }
 
     @Override
     public void delete(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        //si no se encuentra el evento con el id, arroja un Nosuch....
+        Evento eventFind = this.objEventRepository.findById(id).orElseThrow();
+        //si se encuentra el evento, se elimina del repositorio
+        this.objEventRepository.delete(eventFind);
+
     }
     
    
